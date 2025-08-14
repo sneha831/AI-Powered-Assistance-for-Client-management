@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">IntelliAssist</h1>
+        <p class="hero-subtitle">AI powered assistance for client management</p>
+    </div>
+</div>
+
+<style>
+.hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    padding: 2rem;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+}
+</style>
+{% endblock %} 

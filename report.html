@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report Issue</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Report Issue</h1>
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <div class="form-section">
+            <h3>Tell us about the problem</h3>
+            <form method="POST" action="/submit_issue">
+                <input type="text" name="title" placeholder="Short title (e.g., Login error)" required>
+                <textarea name="description" placeholder="Describe the problem...
+Examples:
+- System freeze during payment
+- Login button not working
+- Billing calculation error
+- Password reset not working" rows="5" required></textarea>
+                <button type="submit">Submit Issue</button>
+            </form>
+        </div>
+        
+        <div class="results">
+            <h3>Recent Reports ({{ reported_issues|length }})</h3>
+            {% if reported_issues %}
+                {% for issue in reported_issues %}
+                <div class="issue-card {{ issue.priority.lower() }}">
+                    <strong>{{ issue.title }}</strong>
+                    <p>{{ issue.description }}</p>
+                    <div class="issue-info">
+                        <span class="priority">{{ issue.priority }}</span>
+                        <span class="team">{{ issue.team }} Team</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No issues reported yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html> 

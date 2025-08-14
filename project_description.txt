@@ -1,0 +1,96 @@
+Combining Idea 1 (Medical Data Integrity & Anomaly Detection System) and Idea 2 (Intelligent Software Issue Classifier & Prioritizer) into a single project is not only possible, but it can actually become a very unique, impressive, and company-relevant solution — especially for a company like Intelligence Science, which works in medical + business system development.
+
+Let me explain:
+
+🧠🔗 Unified Project: Smart Medical Support Monitoring & Issue Management System
+💡 What is it?
+A two-part intelligent system that:
+
+Automatically detects anomalies in medical/business data
+
+Lets users report issues, which are then auto-classified and prioritized using AI
+
+🔄 How the Two Parts Work Together
+PART 1: Medical/Business Data Anomaly Detection
+The system scans uploaded files or data (e.g., patient records, billing data)
+
+Uses rules + AI models to find:
+
+Missing data
+
+Unusual values (e.g., blood pressure 300, age 200)
+
+Data that deviates from normal patterns (anomaly detection)
+
+📍When something suspicious is found, it’s logged into the system as a "Detected Issue."
+
+PART 2: Issue Reporting & Smart Ticket Handling
+Users (e.g., hospital staff or admins) can report other issues manually
+
+Each issue — whether manually reported or auto-detected — is:
+
+Auto-tagged with priority (Low, Medium, High)
+
+Assigned to a responsible team (e.g., DB, Backend)
+
+Summarized using AI
+
+Tracked in a clean dashboard
+
+✅ Why This Combo Works So Well
+💡 Feature	✅ Value
+Real-time anomaly detection	Prevents errors in medical/business systems early
+AI-based issue classification	Speeds up internal support
+Combines automation + user input	Balanced and flexible
+Relevant to medical + enterprise domains	Matches company’s business scope
+Useful for internal QA teams or hospitals	Real practical use case
+
+📦 Final System Overview (Simple Words)
+You're building a web tool that helps a company keep medical/business data clean and also manage system issues efficiently — using AI to spot bad data and prioritize problems.
+✅ Combined Project: Smart Issue & Data Anomaly Manager for Medical Systems
+🔍 What is it?
+You're building a web-based system that does two main things:
+
+Checks medical or system data for mistakes (wrong values, missing info, weird numbers).
+
+Handles and prioritizes software issues (like bugs reported by hospitals or staff), using AI to figure out what’s urgent and who should fix it.
+
+🧠 How it works:
+A hospital system sends data (like patient records, billing, etc.) or reports a technical problem.
+
+Your system:
+
+Scans the data for errors — e.g., patient age is 200, or billing is 10x normal → it flags it.
+
+Reads support tickets (problem reports) — and uses AI to:
+
+Automatically classify the problem (e.g., Payment bug, Login error)
+
+Decide how urgent it is (Low, Medium, High)
+
+Suggest which team (backend/frontend/data) should handle it
+
+🎯 Why it’s useful:
+Saves time for the company's internal support team
+
+Helps detect issues early (even before customers complain)
+
+Improves data quality and makes hospital systems more reliable
+
+Makes the company look more professional and efficient to clients
+
+🏥 Example:
+Let’s say a hospital sends:
+
+A billing record where a patient was charged ₹10,00,000 for a minor test
+
+And a ticket: “System freezes during payment process”
+
+Your system will:
+
+Flag the billing as a data anomaly
+
+Mark the system freeze as a High-priority backend issue, summarize the problem, and assign it to the right team
+
+💡 Final Result:
+A small but powerful AI tool that helps the company deliver:

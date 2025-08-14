@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Anomaly Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Data Anomaly Detection</h1>
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <div class="form-section">
+            <h3>Enter Medical/Business Data</h3>
+            <form method="POST" action="/check_data">
+                <textarea name="data_input" placeholder="Paste your data here... 
+Example: 
+Patient age: 25
+Billing amount: ₹5,000
+Status: active
+
+Or try unusual values like:
+Patient age: 200
+Billing: ₹10,00,000
+Status: null" rows="8"></textarea>
+                <button type="submit">Check for Problems</button>
+            </form>
+        </div>
+        
+        <div class="results">
+            <h3>Detected Issues ({{ detected_issues|length }})</h3>
+            {% if detected_issues %}
+                {% for issue in detected_issues %}
+                <div class="issue-card high">
+                    <strong>{{ issue.type }}</strong>
+                    <p>{{ issue.description }}</p>
+                    <span class="priority">{{ issue.priority }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No issues detected yet. Try entering some data above!</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html> 

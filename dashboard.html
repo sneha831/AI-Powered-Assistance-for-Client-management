@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RESERVER{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome back, {{ current_user.username }}!</h1>
+            <p>Manage your auctions and track your bids</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-section">
+                <h2>Your Auctions</h2>
+                {% if auctions %}
+                    <div class="mini-auctions-grid">
+                        {% for auction in auctions %}
+                        <div class="mini-auction-card">
+                            <h3>{{ auction.title }}</h3>
+                            <div class="auction-stats">
+                                <span class="stat">Current: ₹{{ auction.current_price }}</span>
+                                <span class="stat">Status: {{ auction.status|title }}</span>
+                            </div>
+                            <a href="{{ url_for('auction_detail', id=auction.id) }}" class="btn btn-small">View</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <p>You haven't created any auctions yet.</p>
+                        <a href="{{ url_for('add_auction') }}" class="btn btn-primary">Create Your First Auction</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Your Bids</h2>
+                {% if bids %}
+                    <div class="bids-list">
+                        {% for bid in bids %}
+                        <div class="bid-item">
+                            <div class="bid-info">
+                                <h4>{{ bid.auction.title }}</h4>
+                                <span class="bid-amount">Your bid: ₹{{ bid.amount }}</span>
+                            </div>
+                            <a href="{{ url_for('auction_detail', id=bid.auction_id) }}" class="btn btn-small">View Auction</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <p>You haven't placed any bids yet.</p>
+                        <a href="{{ url_for('auctions') }}" class="btn btn-primary">Browse Auctions</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="{{ url_for('add_auction') }}" class="action-card">
+                    <div class="action-icon">➕</div>
+                    <h3>Create Auction</h3>
+                    <p>List a new ticket for auction</p>
+                </a>
+                <a href="{{ url_for('auctions') }}" class="action-card">
+                    <div class="action-icon">🔍</div>
+                    <h3>Browse Auctions</h3>
+                    <p>Find tickets to bid on</p>
+                </a>
+                <a href="{{ url_for('report_issue') }}" class="action-card">
+                    <div class="action-icon">📝</div>
+                    <h3>Report Issue</h3>
+                    <p>Need help? Report a problem</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-container {
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.dashboard-section {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-section h2 {
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+}
+
+.mini-auctions-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.mini-auction-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.auction-stats {
+    display: flex;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+
+.stat {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.bids-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.bid-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.bid-amount {
+    color: #059669;
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b;
+}
+
+.quick-actions {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.quick-actions h2 {
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.action-card {
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.action-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %} 

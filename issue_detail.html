@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% block title %}Issue Details - IntelliAssist{% endblock %}
+
+{% block content %}
+<div class="issue-detail-container">
+    <div class="container">
+        <div class="issue-detail-header">
+            <div class="breadcrumb">
+                {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}">← Back to Admin Dashboard</a>
+                {% else %}
+                    <a href="{{ url_for('client_dashboard') }}">← Back to Dashboard</a>
+                {% endif %}
+            </div>
+            <h1>{{ issue.title }}</h1>
+            <div class="issue-badges">
+                <span class="priority-badge priority-{{ issue.priority.lower() }}">{{ issue.priority }}</span>
+                <span class="status-badge status-{{ issue.status.lower().replace(' ', '-') }}">{{ issue.status }}</span>
+                <span class="domain-badge domain-{{ issue.domain.lower() }}">{{ issue.domain.title() }}</span>
+            </div>
+        </div>
+
+        <div class="issue-detail-content">
+            <div class="issue-main-info">
+                <div class="info-section">
+                    <h3>📝 Description</h3>
+                    <p class="issue-description">{{ issue.description }}</p>
+                </div>
+
+                {% if issue.ai_analysis %}
+                <div class="info-section ai-analysis">
+                    <h3>🤖 AI Analysis</h3>
+                    <div class="ai-content">{{ issue.ai_analysis|replace('\n', '<br>')|safe }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="issue-sidebar">
+                <div class="sidebar-section">
+                    <h4>📊 Issue Details</h4>
+                    <div class="detail-item">
+                        <span class="label">Reporter:</span>
+                        <span class="value">👤 {{ issue.reporter.username }} ({{ issue.reporter.company_name }})</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Created:</span>
+                        <span class="value">📅 {{ issue.created_at.strftime('%d %b, %Y at %H:%M') }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Category:</span>
+                        <span class="value">🏷️ {{ issue.category.title() }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Domain:</span>
+                        <span class="value">🔧 {{ issue.domain.title() }}</span>
+                    </div>
+                    {% if issue.deadline %}
+                    <div class="detail-item">
+                        <span class="label">Deadline:</span>
+                        <span class="value deadline-value">⏰ {{ issue.deadline.strftime('%d %b, %Y') }}</span>
+                    </div>
+                    {% endif %}
+                    {% if issue.status == 'Resolved' and issue.resolved_at %}
+                    <div class="detail-item">
+                        <span class="label">Resolved:</span>
+                        <span class="value">✅ {{ issue.resolved_at.strftime('%d %b, %Y at %H:%M') }}</span>
+                    </div>
+                    {% if issue.resolver %}
+                    <div class="detail-item">
+                        <span class="label">Resolved by:</span>
+                        <span class="value">👨‍💼 {{ issue.resolver.username }}</span>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+
+                {% if current_user.role == 'admin' and issue.status != 'Resolved' %}
+                <div class="sidebar-section">
+                    <h4>⚡ Admin Actions</h4>
+                    <a href="{{ url_for('resolve_issue', issue_id=issue.id) }}" class="btn btn-success btn-full" onclick="return confirm('Mark this issue as resolved?')">
+                        ✅ Mark as Resolved
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.issue-detail-container {
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.issue-detail-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.breadcrumb {
+    margin-bottom: 1rem;
+}
+
+.breadcrumb a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.issue-detail-header h1 {
+    font-size: 2.5rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.issue-badges {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.issue-detail-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.issue-main-info, .issue-sidebar {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.info-section {
+    padding: 2rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.info-section:last-child {
+    border-bottom: none;
+}
+
+.info-section h3 {
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.issue-description {
+    color: #4b5563;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.ai-analysis {
+    background: #f8fafc;
+}
+
+.ai-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    color: #374151;
+    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar-section {
+    padding: 2rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.sidebar-section:last-child {
+    border-bottom: none;
+}
+
+.sidebar-section h4 {
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+.detail-item .label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.detail-item .value {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.deadline-value {
+    color: #ea580c !important;
+    font-weight: 700 !important;
+}
+
+.priority-badge, .status-badge, .domain-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority-critical {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.priority-high {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.priority-medium {
+    background: #fefce8;
+    color: #ca8a04;
+}
+
+.priority-low {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.status-open {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.status-resolved {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.domain-coding {
+    background: #f3e8ff;
+    color: #7c3aed;
+}
+
+.domain-plumbing {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.domain-electrical {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.domain-hvac {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.domain-security {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.domain-network {
+    background: #f0f9ff;
+    color: #0284c7;
+}
+
+.domain-hardware {
+    background: #f9fafb;
+    color: #374151;
+}
+
+.domain-software {
+    background: #f3e8ff;
+    color: #7c3aed;
+}
+
+.domain-facilities {
+    background: #f6f3ff;
+    color: #8b5cf6;
+}
+
+.domain-other {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.btn-full {
+    width: 100%;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .issue-detail-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .issue-badges {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .detail-item {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+</style>
+{% endblock %} 
